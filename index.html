@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tinker Logic — Python problem solving classes</title>
+<title>Tinker Logic — Problem solving using Python classes</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;700;800&display=swap');
 
@@ -104,6 +104,19 @@
   .submit-btn:hover { opacity: 0.92; }
 
   .site-footer { text-align: center; padding: 24px; font-size: 13px; color: #5c6773; font-family: 'JetBrains Mono', monospace; }
+
+  /* Calendly booking section */
+  .calendly-section {
+    background: #0b0f14;
+    padding: 50px 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+  }
+  .calendly-inner { max-width: 560px; margin: 0 auto; }
+  .calendly-title { font-size: clamp(20px, 3vw, 24px); font-weight: 700; color: #f0f4f8; margin-bottom: 10px; }
+  .calendly-lead { font-size: 15px; color: #93a0ac; margin-bottom: 24px; line-height: 1.6; }
+  .calendly-btn { display: inline-block; font-size: 16px; font-weight: 700; color: #0b0f14; background: linear-gradient(90deg, #2ecc96, #3a8cff); padding: 14px 30px; border-radius: 10px; text-decoration: none; }
+  .calendly-btn:hover { opacity: 0.92; }
 </style>
 </head>
 <body>
@@ -119,13 +132,13 @@
       </div>
 
       <div class="prompt">&gt;&gt;&gt; import future<span class="cursor"></span></div>
-      <h1 class="brand">Tinker Logic<span class="sub">Python problem solving</span></h1>
-      <div class="tagline">Learn to code<span class="accent">.</span> Learn to think<span class="accent">.</span></div>
+      <h1 class="brand">Tinker Logic<span class="sub">Problem solving using Python</span></h1>
+      <div class="tagline">Learn to code<span class="accent">.</span> Code to solve<span class="accent">.</span></div>
 
       <div class="divider"></div>
 
       <div class="subhead">Weekly classes for <span class="hl">every</span> skill level</div>
-      <p class="lead">Weekly 1-hour online sessions where you don't just learn Python syntax — you learn how to think like a problem solver. Break down challenges, build logic, and write real code with guided practice every week.</p>
+      <p class="lead">Each session you just don't learn Python syntax - you learn how to think like a problem solver. Analyse and break down problems, build logic, and write functional code!</p>
 
       <div class="grid">
         <div class="feature">
@@ -177,6 +190,14 @@
     </div>
   </div>
 
+  <div class="calendly-section">
+    <div class="calendly-inner">
+      <div class="calendly-title">Not sure yet?</div>
+      <p class="calendly-lead">Book a 15 min meeting to learn more how this works!</p>
+      <a class="calendly-btn" href="https://calendly.com/YOUR-CALENDLY-LINK" target="_blank" rel="noopener">Book a 15 min call</a>
+    </div>
+  </div>
+
   <div class="form-section" id="enroll">
     <div class="form-inner">
       <div class="form-title">Enroll in <span class="hl">Tinker Logic</span></div>
@@ -188,7 +209,7 @@
         2. Create a new form, and copy the endpoint it gives you (looks like https://formspree.io/f/xxxxxxx).
         3. Replace the action URL below with your endpoint.
       -->
-      <form action="https://formspree.io/f/mwvgerzb" method="POST">
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
         <div class="field">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required>
@@ -206,7 +227,7 @@
           </select>
         </div>
         <div class="field">
-          <label for="message">Anything we should know? (age, experience level, availability)</label>
+          <label for="message">Anything else you want to share with us?</label>
           <textarea id="message" name="message"></textarea>
         </div>
         <button type="submit" class="submit-btn">Submit enrollment request</button>
