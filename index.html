@@ -3,240 +3,370 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tinker Logic — Problem solving using Python classes</title>
+<title>Tinker Logic — help your child learn to solve problems</title>
+<meta name="description" content="Live online classes where teens (13+) learn real problem-solving by writing Python. We teach the thinking first — understand, break down, plan — then code. First class free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;700;800&display=swap');
+:root{
+  --paper:#FAFAF6; --paper-2:#FFFFFF; --ink:#1D2130; --ink-2:#4B4F63; --ink-3:#83879A;
+  --line:#E7E5DC; --line-2:#DEDCD1;
+  --think:#5A50C8; --think-soft:#EEEBFB; --think-line:#D6CFF6;
+  --doing:#0E9E77; --doing-soft:#E1F4EE; --doing-line:#B9E6D8;
+  --warm:#E8623C; --warm-soft:#FBECE6;
+  --grid:rgba(90,80,200,.05);
+  --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'Space Mono',ui-monospace,monospace;
+  --wrap:1080px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1;letter-spacing:-.02em;margin:0}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--think);font-weight:700}
+.mono{font-family:var(--font-mono)}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-body);font-weight:600;font-size:16px;
+  border-radius:11px;padding:13px 22px;border:1.5px solid transparent;cursor:pointer;text-decoration:none;transition:.16s;white-space:nowrap}
+.btn.primary{background:var(--think);color:#fff}
+.btn.primary:hover{background:#4a41ad;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:var(--ink-3);background:#fff}
+.btn.sm{padding:10px 16px;font-size:15px;border-radius:9px}
 
-  html { scroll-behavior: smooth; }
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(250,250,246,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:16px;height:66px}
+.logo{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:9px}
+.logo .mk{width:26px;height:26px;border-radius:7px;background:var(--think);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:14px;font-weight:700}
+.nav-links{display:flex;gap:26px;margin-left:22px}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-size:15px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-sp{flex:1}
+@media(max-width:760px){.nav-links{display:none}}
 
-  body {
-    background: #0b0f14;
-    font-family: 'Inter', sans-serif;
-    color: #e6edf3;
-  }
+/* hero */
+.hero{position:relative;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:center top}
+.hero-in{padding:74px 0 64px;display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+.hero h1{font-size:52px;font-weight:700;margin:16px 0 0}
+.hero h1 .hl{color:var(--think);position:relative;white-space:nowrap}
+.hero p.lead{font-size:19px;color:var(--ink-2);margin:20px 0 28px;max-width:34ch}
+.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.trust-strip{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:14px;color:var(--ink-3)}
+.trust-strip span{display:inline-flex;align-items:center;gap:7px}
+.trust-strip .d{width:5px;height:5px;border-radius:50%;background:var(--doing)}
+@media(max-width:860px){.hero-in{grid-template-columns:1fr;gap:34px}.hero h1{font-size:40px}}
 
-  .page {
-    background-image:
-      radial-gradient(circle at 15% 10%, rgba(46,204,150,0.08), transparent 40%),
-      radial-gradient(circle at 85% 90%, rgba(58,140,255,0.08), transparent 40%);
-    padding: 50px 24px 0;
-  }
+/* worked-problem card (hero visual) */
+.worked{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 18px 40px -24px rgba(29,33,48,.28)}
+.worked .tag{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.wstep{display:flex;gap:13px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line-2)}
+.wstep:last-child{border-bottom:0}
+.wstep .n{flex:none;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;margin-top:1px}
+.wstep.think .n{background:var(--think-soft);color:var(--think)}
+.wstep.doing .n{background:var(--doing-soft);color:var(--doing)}
+.wstep .t{font-weight:600;font-size:15px}
+.wstep .s{color:var(--ink-3);font-size:13.5px}
+.shift{display:flex;flex-direction:column;gap:11px}
+.shift-row{border-radius:12px;padding:15px 16px}
+.shift-row .lab{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px}
+.shift-row p{margin:0;font-size:15px;line-height:1.5}
+.shift-row.before{background:#F3F1EA;border:1px solid var(--line-2)}
+.shift-row.before .lab{color:var(--ink-3)}
+.shift-row.before p{color:var(--ink-2)}
+.shift-row.after{background:var(--doing-soft);border:1px solid var(--doing-line)}
+.shift-row.after .lab{color:var(--doing)}
+.shift-row.after p{color:#0a5b44}
+.shift-arrow{text-align:center;color:var(--ink-3);font-size:17px;line-height:.3}
 
-  .inner { max-width: 860px; margin: 0 auto; }
+/* sections */
+section{padding:76px 0}
+.section-head{max-width:640px;margin-bottom:40px}
+.section-head h2{font-size:34px;margin:12px 0 14px}
+.section-head p{color:var(--ink-2);font-size:18px;margin:0}
+.tint{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 
-  .topbar { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot.red { background: #ff5f56; }
-  .dot.yellow { background: #ffbd2e; }
-  .dot.green { background: #27c93f; }
-  .path { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #6b7785; margin-left: 16px; }
+/* method loop */
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.loop .card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:18px 16px 20px}
+.loop .card .n{font-family:var(--font-mono);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;margin-bottom:12px}
+.loop .card.think .n{background:var(--think-soft);color:var(--think)}
+.loop .card.doing .n{background:var(--doing-soft);color:var(--doing)}
+.loop .card h3{font-size:17px;margin-bottom:6px}
+.loop .card p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+.loop-key{display:flex;gap:22px;margin-top:20px;font-size:13.5px;color:var(--ink-3)}
+.loop-key span{display:inline-flex;align-items:center;gap:8px}
+.loop-key .sw{width:11px;height:11px;border-radius:4px}
+@media(max-width:860px){.loop{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.loop{grid-template-columns:1fr}}
 
-  .prompt { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #2ecc96; margin-bottom: 14px; }
-  .prompt .cursor { display: inline-block; width: 10px; height: 20px; background: #2ecc96; margin-left: 6px; vertical-align: middle; }
+/* outcomes */
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:14px 34px;margin-top:8px}
+.outcome{display:flex;gap:13px;align-items:flex-start;font-size:16.5px}
+.outcome .ck{flex:none;width:24px;height:24px;border-radius:50%;background:var(--doing-soft);color:var(--doing);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:2px}
+@media(max-width:640px){.outcomes{grid-template-columns:1fr}}
 
-  h1.brand { font-size: clamp(48px, 9vw, 96px); font-weight: 800; letter-spacing: -2px; line-height: 1; color: #2ecc96; }
-  h1.brand .sub { display: block; font-size: clamp(18px, 3vw, 26px); font-weight: 700; color: #c9d3dc; margin-top: 10px; }
+/* format cards */
+.formats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fmt{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.fmt .ic{font-family:var(--font-mono);color:var(--think);font-size:20px;margin-bottom:10px}
+.fmt h3{font-size:16px;margin-bottom:4px}
+.fmt p{margin:0;font-size:14px;color:var(--ink-2)}
+@media(max-width:760px){.formats{grid-template-columns:1fr 1fr}}
 
-  .tagline { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #9aa7b3; margin-top: 16px; }
-  .tagline .accent { color: #2ecc96; }
+/* instructor */
+.about{display:grid;grid-template-columns:260px 1fr;gap:38px;align-items:center}
+.ph-photo{aspect-ratio:1;border-radius:18px;background:var(--think);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+.ph-photo .mono-letter{font-family:var(--font-display);font-weight:700;font-size:96px;line-height:1;letter-spacing:-.03em}
+.ph-photo .mono-cap{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#D9D4F7;margin-top:12px}
+.about h2{font-size:30px;margin-bottom:14px}
+.about p{color:var(--ink-2);margin:0 0 14px}
+.ph{background:var(--warm-soft);border:1px dashed var(--warm);color:#a23c22;border-radius:8px;padding:2px 7px;font-size:.92em;font-weight:500;font-family:var(--font-mono)}
+@media(max-width:680px){.about{grid-template-columns:1fr;gap:22px}.ph-photo{max-width:220px}}
 
-  .divider { height: 1px; background: linear-gradient(90deg, rgba(46,204,150,0.5), rgba(58,140,255,0.5), transparent); margin: 36px 0; }
+/* testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.quote{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative}
+.quote .mark{font-family:var(--font-display);font-size:44px;line-height:.5;color:var(--think-line);height:22px}
+.quote p{font-size:15.5px;color:var(--ink-2);margin:14px 0 16px}
+.quote .who{font-size:13.5px;color:var(--ink-3);font-weight:500}
+.quote.ph-q{border-style:dashed;border-color:var(--think-line);background:var(--think-soft)}
+.quote.ph-q p{color:var(--think)}
+@media(max-width:820px){.quotes{grid-template-columns:1fr}}
 
-  .subhead { font-size: clamp(24px, 4vw, 32px); font-weight: 700; color: #f0f4f8; margin-bottom: 10px; }
-  .subhead .hl { color: #2ecc96; }
+/* faq */
+.faq{max-width:760px}
+details{border-bottom:1px solid var(--line);padding:6px 0}
+summary{cursor:pointer;list-style:none;padding:15px 0;font-family:var(--font-display);font-weight:600;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary .plus{flex:none;width:24px;height:24px;border-radius:7px;background:var(--think-soft);color:var(--think);display:flex;align-items:center;justify-content:center;font-size:17px;transition:.2s}
+details[open] summary .plus{transform:rotate(45deg)}
+details p{margin:0 0 15px;color:var(--ink-2);font-size:16px}
 
-  .lead { font-size: 17px; color: #b7c2cd; line-height: 1.6; max-width: 720px; margin-bottom: 30px; }
+/* final CTA + form */
+.cta{background:var(--think);color:#fff;border-radius:22px;padding:50px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.cta h2{color:#fff;font-size:32px;margin-bottom:12px}
+.cta p{color:#E4E0FA;margin:0 0 22px;font-size:17px}
+.cta .btn.primary{background:#fff;color:var(--think)}
+.cta .btn.primary:hover{background:#F1EFFB}
+.cta .btn.ghost{color:#fff;border-color:rgba(255,255,255,.4)}
+.cta .btn.ghost:hover{background:rgba(255,255,255,.1)}
+.form{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:24px}
+.form label{display:block;font-size:13.5px;font-weight:500;color:#E4E0FA;margin:0 0 6px}
+.form .fld{margin-bottom:15px}
+.form input,.form select,.form textarea{width:100%;background:rgba(255,255,255,.95);border:0;border-radius:9px;padding:11px 13px;font-family:var(--font-body);font-size:15px;color:var(--ink)}
+.form textarea{resize:vertical;min-height:64px}
+.form .btn{width:100%;justify-content:center;margin-top:4px}
+.form .note{font-size:12px;color:#C9C3F0;margin:12px 0 0;text-align:center}
+@media(max-width:820px){.cta{grid-template-columns:1fr;padding:32px}}
 
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+footer{padding:44px 0;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px}
+.foot-in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--ink-2);text-decoration:none}
+footer a:hover{color:var(--ink)}
 
-  .feature { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px 22px; display: flex; align-items: flex-start; gap: 18px; }
-  .feature .icon { font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #2ecc96; line-height: 1; margin-top: 2px; min-width: 22px; }
-  .feature .title { font-size: 17px; font-weight: 700; color: #f0f4f8; margin-bottom: 5px; }
-  .feature .desc { font-size: 14px; color: #93a0ac; line-height: 1.5; }
-
-  .code { background: #0e1420; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 22px 24px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; overflow-x: auto; margin-bottom: 40px; }
-  .code .kw { color: #ff79c6; }
-  .code .fn { color: #3a8cff; }
-  .code .str { color: #2ecc96; }
-  .code .cm { color: #5c6773; }
-  .code .num { color: #ffbd2e; }
-
-  .footer { padding: 30px 0 40px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
-
-  .cta { font-size: 16px; font-weight: 700; color: #0b0f14; background: linear-gradient(90deg, #2ecc96, #3a8cff); padding: 14px 30px; border-radius: 10px; display: inline-block; text-decoration: none; border: none; cursor: pointer; }
-  .cta:hover { opacity: 0.92; }
-
-  .contact { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #93a0ac; line-height: 1.9; }
-  .contact .lbl { color: #5c6773; }
-  .contact a { color: #93a0ac; text-decoration: none; }
-  .contact a:hover { color: #2ecc96; }
-
-  /* Enroll form section */
-  .form-section {
-    background: #0e1420;
-    padding: 60px 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .form-inner { max-width: 560px; margin: 0 auto; }
-  .form-title { font-size: clamp(24px, 4vw, 30px); font-weight: 700; color: #f0f4f8; margin-bottom: 10px; }
-  .form-title .hl { color: #2ecc96; }
-  .form-lead { font-size: 15px; color: #93a0ac; margin-bottom: 30px; line-height: 1.6; }
-
-  label { display: block; font-size: 13px; color: #9aa7b3; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
-  .field { margin-bottom: 20px; }
-  input, textarea, select {
-    width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 8px;
-    padding: 12px 14px;
-    color: #e6edf3;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-  }
-  input:focus, textarea:focus, select:focus { outline: none; border-color: #2ecc96; }
-  select option { background: #10161f; color: #e6edf3; }
-  textarea { resize: vertical; min-height: 90px; }
-
-  .submit-btn { width: 100%; font-size: 16px; font-weight: 700; color: #0b0f14; background: linear-gradient(90deg, #2ecc96, #3a8cff); padding: 14px; border-radius: 10px; border: none; cursor: pointer; }
-  .submit-btn:hover { opacity: 0.92; }
-
-  .site-footer { text-align: center; padding: 24px; font-size: 13px; color: #5c6773; font-family: 'JetBrains Mono', monospace; }
-
-  /* Calendly booking section */
-  .calendly-section {
-    background: #0b0f14;
-    padding: 50px 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    text-align: center;
-  }
-  .calendly-inner { max-width: 560px; margin: 0 auto; }
-  .calendly-title { font-size: clamp(20px, 3vw, 24px); font-weight: 700; color: #f0f4f8; margin-bottom: 10px; }
-  .calendly-lead { font-size: 15px; color: #93a0ac; margin-bottom: 24px; line-height: 1.6; }
-  .calendly-btn { display: inline-block; font-size: 16px; font-weight: 700; color: #0b0f14; background: linear-gradient(90deg, #2ecc96, #3a8cff); padding: 14px 30px; border-radius: 10px; text-decoration: none; }
-  .calendly-btn:hover { opacity: 0.92; }
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+:focus-visible{outline:2.5px solid var(--think);outline-offset:2px;border-radius:4px}
 </style>
 </head>
 <body>
 
-  <div class="page">
-    <div class="inner">
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="logo"><span class="mk">{}</span>Tinker Logic</a>
+    <div class="nav-links">
+      <a href="#method">How it works</a>
+      <a href="#outcomes">What they learn</a>
+      <a href="#about">Who teaches</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-sp"></div>
+    <a href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" class="btn primary sm">Book a free class</a>
+  </div>
+</nav>
 
-      <div class="topbar">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-        <div class="path">~/learn/tinkerlogic</div>
+<header class="hero" id="top">
+  <div class="wrap hero-in">
+    <div>
+      <div class="eyebrow">Live online classes · ages 13+</div>
+      <h1>Your child learns to <span class="hl">think through problems</span> — not just memorise answers.</h1>
+      <p class="lead">Small, live classes where teens learn real problem-solving by writing Python. We teach the thinking first — then the code follows.</p>
+      <div class="cta-row">
+        <a href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" class="btn primary">Book a free first class</a>
+        <a href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" class="btn ghost">Talk to us (15 min)</a>
       </div>
-
-      <div class="prompt">&gt;&gt;&gt; import future<span class="cursor"></span></div>
-      <h1 class="brand">Tinker Logic<span class="sub">Problem solving using Python</span></h1>
-      <div class="tagline">Learn to code<span class="accent">.</span> Code to solve<span class="accent">.</span></div>
-
-      <div class="divider"></div>
-
-      <div class="subhead">Weekly classes for <span class="hl">every</span> skill level</div>
-      <p class="lead">Each session you just don't learn Python syntax - you learn how to think like a problem solver. Analyse and break down problems, build logic, and write functional code!</p>
-
-      <div class="grid">
-        <div class="feature">
-          <div class="icon">&#123;&#125;</div>
-          <div>
-            <div class="title">1-hour sessions</div>
-            <div class="desc">Focused, no fluff. One clear topic or problem set per class.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="icon">&#8635;</div>
-          <div>
-            <div class="title">Weekly cadence</div>
-            <div class="desc">Steady progress, one session every week to build momentum.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="icon">&#9673;</div>
-          <div>
-            <div class="title">Group or solo</div>
-            <div class="desc">Small group by default, or 1:1 if slots are available.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="icon">&#9654;</div>
-          <div>
-            <div class="title">100% online</div>
-            <div class="desc">Join from anywhere. All you need is a laptop and curiosity.</div>
-          </div>
-        </div>
+      <div class="trust-strip">
+        <span><i class="d"></i>Live &amp; online</span>
+        <span><i class="d"></i>Small groups or 1:1</span>
+        <span><i class="d"></i>One hour, weekly</span>
+        <span><i class="d"></i>No experience needed</span>
       </div>
-
-      <div class="code">
-<span class="kw">class</span> <span class="fn">Student</span>:<br>
-&nbsp;&nbsp;<span class="kw">def</span> <span class="fn">__init__</span>(self):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;self.level = <span class="str">"beginner"</span> <span class="cm"># -&gt; problem solver</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;self.sessions_per_week = <span class="num">1</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;self.confidence = <span class="fn">growing</span>()
+    </div>
+    <div class="worked" aria-label="How students change over a few weeks">
+      <div class="tag">What changes for your child</div>
+      <div class="shift">
+        <div class="shift-row before"><span class="lab">Before</span><p>Freezes at anything unfamiliar. Guesses, or gives up.</p></div>
+        <div class="shift-arrow">↓</div>
+        <div class="shift-row after"><span class="lab">After a few weeks</span><p>Meets a hard problem calmly, thinks it through, and keeps going.</p></div>
       </div>
-
-      <div class="footer">
-        <a class="cta" href="#enroll">Fill up the form to enroll!</a>
-        <div class="contact">
-          <span class="lbl">Ages:</span> from 13 years+ <br>
-          <span class="lbl">Email:</span> <a href="mailto:asktinkerlogic@gmail.com">asktinkerlogic@gmail.com</a>
-        </div>
-      </div>
-
     </div>
   </div>
+</header>
 
-  <div class="calendly-section">
-    <div class="calendly-inner">
-      <div class="calendly-title">Not sure yet?</div>
-      <p class="calendly-lead">Book a 15 min meeting to learn more how this works!</p>
-      <a class="calendly-btn" href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" target="_blank" rel="noopener">Book a 15 min call</a>
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why it matters</div>
+      <h2>Answers are everywhere now. Knowing how to think isn't.</h2>
+      <p>Type any question into a search box or an AI and you get an answer in seconds. That makes one skill more valuable than ever: being able to take an unfamiliar problem apart and reason your way to a solution on your own. It's also the skill kids get the least practice with — so that's the one thing we build, using code as the practice ground.</p>
     </div>
   </div>
+</section>
 
-  <div class="form-section" id="enroll">
-    <div class="form-inner">
-      <div class="form-title">Enroll in <span class="hl">Tinker Logic</span></div>
-      <p class="form-lead">Tell us a bit about yourself and we'll get back to you to schedule your first session.</p>
-
-      <!-- 
-        This form uses Formspree (formspree.io) to handle submissions without a backend.
-        1. Go to formspree.io and create a free account.
-        2. Create a new form, and copy the endpoint it gives you (looks like https://formspree.io/f/xxxxxxx).
-        3. Replace the action URL below with your endpoint.
-      -->
-      <form action="https://formspree.io/f/mwvgerzb" method="POST">
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="field">
-          <label for="mode">Preferred format</label>
-          <select id="mode" name="mode">
-            <option value="group">Group session</option>
-            <option value="solo">Solo (1:1) session</option>
-            <option value="not-sure">Not sure yet</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="message">Anything else you want to share with us?</label>
-          <textarea id="message" name="message"></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Submit enrollment request</button>
-      </form>
+<!-- METHOD -->
+<section id="method" class="tint">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The approach</div>
+      <h2>A repeatable way to think through any problem.</h2>
+      <p>Your child learns a structured way to approach problems they've never seen before — one they can reuse long after the class ends. Here's what makes it work.</p>
+    </div>
+    <div class="loop">
+      <div class="card think"><span class="n">◆</span><h3>Thinking comes first</h3><p>We spend real time working out a problem before any code — so your child builds judgement, not just recall.</p></div>
+      <div class="card think"><span class="n">◇</span><h3>Learn by doing</h3><p>Every session is hands-on with real problems in our own coding tool — never a passive lecture.</p></div>
+      <div class="card doing"><span class="n">◈</span><h3>Confidence that compounds</h3><p>Steady weekly wins, so a hard problem starts to feel like a challenge instead of a wall.</p></div>
     </div>
   </div>
+</section>
 
-  <div class="site-footer">Tinker Logic &mdash; asktinkerlogic@gmail.com</div>
+<!-- OUTCOMES -->
+<section id="outcomes">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What your child walks away with</div>
+      <h2>Skills that outlast the class.</h2>
+      <p>After a few weeks of steady practice, your child can:</p>
+    </div>
+    <div class="outcomes">
+      <div class="outcome"><span class="ck">✓</span><div>Approach an unfamiliar problem calmly instead of freezing.</div></div>
+      <div class="outcome"><span class="ck">✓</span><div>Break a big task into small steps they can actually do.</div></div>
+      <div class="outcome"><span class="ck">✓</span><div>Explain their plan clearly before writing any code.</div></div>
+      <div class="outcome"><span class="ck">✓</span><div>Write and read simple Python with confidence.</div></div>
+      <div class="outcome"><span class="ck">✓</span><div>Debug their own mistakes instead of giving up.</div></div>
+      <div class="outcome"><span class="ck">✓</span><div>Stick with a hard problem — the habit that matters most.</div></div>
+    </div>
+  </div>
+</section>
 
+<!-- FORMAT -->
+<section class="tint">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How the classes run</div>
+      <h2>Simple, steady, and built around your child.</h2>
+    </div>
+    <div class="formats">
+      <div class="fmt"><div class="ic">◷</div><h3>One hour, weekly</h3><p>Focused sessions — one clear problem set per class, no filler.</p></div>
+      <div class="fmt"><div class="ic">◉</div><h3>Small group or 1:1</h3><p>A handful of students by default, or one-on-one if you prefer.</p></div>
+      <div class="fmt"><div class="ic">⧉</div><h3>100% online</h3><p>Join from home. All they need is a laptop and curiosity.</p></div>
+      <div class="fmt"><div class="ic">↻</div><h3>Ages 13 and up</h3><p>Beginners welcome — we start from zero, no prior coding needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="about">
+      <div class="ph-photo" aria-label="Madhu, founder and teacher at Tinker Logic">
+        <span class="mono-letter">M</span>
+        <span class="mono-cap">Founder &amp; teacher</span>
+      </div>
+      <div>
+        <div class="eyebrow">Who's teaching</div>
+        <h2>Hi, I'm Madhu.</h2>
+        <p><span class="ph">[2–3 sentences: who you are, and your background — e.g. years of coding / teaching / engineering experience, degree, or the work you've done. Parents want to know a real, capable person is teaching their child.]</span></p>
+        <p><span class="ph">[Why you teach this: the personal reason you care about problem-solving. This is what makes parents trust you over a big faceless platform. Speak plainly.]</span></p>
+        <p style="color:var(--ink-3);font-size:14.5px">Classes are taught personally by me — not handed to a rotating pool of tutors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS — hidden for now (no client quotes yet). Add this section back after your free pilot, using real parent/student quotes. Ask and I'll regenerate it. -->
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Common questions</div>
+      <h2>Things parents ask.</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Does my child need any coding experience?<span class="plus">+</span></summary><p>None at all. We start from zero and build up gently. The focus is on thinking clearly, not on prior knowledge.</p></details>
+      <details><summary>Why Python?<span class="plus">+</span></summary><p>Python reads almost like plain English, so beginners spend their energy on the actual thinking instead of fighting confusing syntax. It's the language most schools and universities now teach first.</p></details>
+      <details><summary>How big are the groups?<span class="plus">+</span></summary><p>Small by default — a handful of students — so every child gets attention and time to speak up. One-on-one sessions are available if you'd prefer.</p></details>
+      <details><summary>What does my child need to join?<span class="plus">+</span></summary><p>Just a laptop and an internet connection. Everything else runs in the browser — nothing to install.</p></details>
+      <details><summary>What ages is this for?<span class="plus">+</span></summary><p>Ages 13 and up. The approach works for curious beginners and for teens who've dabbled but want to actually understand what they're doing.</p></details>
+      <details><summary>How much does it cost?<span class="plus">+</span></summary><p><span class="ph">[Add your pricing here — per session, or a monthly plan. Be clear and simple.]</span> The first class is always free, so you can see if it's a fit before paying anything.</p></details>
+      <details><summary>How will I know it's working?<span class="plus">+</span></summary><p>You'll see it in how your child approaches problems — at the keyboard and away from it. <span class="ph">[Optional: mention if you share short progress notes with parents.]</span></p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="enroll">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <div class="eyebrow" style="color:#C9C3F0">Start here</div>
+        <h2>The first class is free.</h2>
+        <p>Book a single session and watch how your child approaches a problem. No payment, no commitment — just see if it clicks.</p>
+        <div class="cta-row" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" class="btn primary">Book the free class</a>
+          <a href="https://calendly.com/asktinkerlogic/tinker-logic-problem-solving-classes" class="btn ghost">Book a 15-min chat</a>
+        </div>
+      </div>
+      <div class="form">
+        <div class="fld"><label for="pn">Your name (parent or student)</label><input id="pn" type="text" placeholder="Full name"></div>
+        <div class="fld"><label for="pe">Email</label><input id="pe" type="email" placeholder="you@example.com"></div>
+        <div class="fld"><label for="pf">Preferred format</label>
+          <select id="pf"><option>Small group</option><option>One-to-one (1:1)</option><option>Not sure yet</option></select></div>
+        <div class="fld"><label for="pm">Anything you'd like us to know?</label><textarea id="pm" placeholder="Your child's age, experience, goals…"></textarea></div>
+        <button class="btn primary" id="sendBtn" type="button">Request the free class</button>
+        <p class="note">Prefer email? Write to asktinkerlogic@gmail.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="logo" style="font-size:18px"><span class="mk" style="width:22px;height:22px;font-size:12px">{}</span>Tinker Logic</div>
+    <div>Live online problem-solving classes · <a href="mailto:asktinkerlogic@gmail.com">asktinkerlogic@gmail.com</a></div>
+  </div>
+</footer>
+
+<script>
+// Lightweight, dependency-free. The form composes an email so it works with zero backend.
+// To collect submissions properly later, swap this for a Formspree or Google Form endpoint.
+document.getElementById('sendBtn').addEventListener('click', function(){
+  var n=document.getElementById('pn').value.trim();
+  var e=document.getElementById('pe').value.trim();
+  var f=document.getElementById('pf').value;
+  var m=document.getElementById('pm').value.trim();
+  var subject=encodeURIComponent('Free class request — '+(n||'new enquiry'));
+  var body=encodeURIComponent('Name: '+n+'\nEmail: '+e+'\nPreferred format: '+f+'\n\nNotes:\n'+m);
+  window.location.href='mailto:asktinkerlogic@gmail.com?subject='+subject+'&body='+body;
+});
+</script>
 </body>
 </html>
